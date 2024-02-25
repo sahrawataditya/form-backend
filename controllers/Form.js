@@ -6,21 +6,25 @@ export const RegisterForm = async (req, res) => {
     lastName,
     birthDate,
     email,
-    residentAddress,
-    permanentAddress,
-    pdfFile,
-    imageFile,
+    pAddressstreet1,
+    pAddressstreet2,
+    rAddressstreet1,
+    rAddressstreet2,
   } = req.body;
+  const image = req?.files["image"][0];
+  const pdf = req?.files["pdf"][0];
   try {
     if (
       !firstName ||
       !lastName ||
       !email ||
       !birthDate ||
-      !residentAddress ||
-      !permanentAddress ||
-      !pdfFile ||
-      !imageFile
+      !image ||
+      !pAddressstreet1 ||
+      !pAddressstreet2 ||
+      !rAddressstreet1 ||
+      !rAddressstreet2 ||
+      !pdf
     ) {
       return res
         .status(400)
@@ -37,18 +41,25 @@ export const RegisterForm = async (req, res) => {
       lastName,
       email,
       birthDate,
-      permanentAddress,
-      residentAddress,
-      pdfFile,
-      imageFile,
+      pAddressstreet1,
+      pAddressstreet2,
+      rAddressstreet1,
+      rAddressstreet2,
+      pdfFile: {
+        fileName: pdf.filename,
+        path: pdf.path,
+      },
+      imageFile: {
+        fileName: image.filename,
+        path: image.path,
+      },
     });
-
     return res.status(201).json({
       message: "Form Submitted Successfully",
       success: true,
     });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return res
       .status(500)
       .json({ message: "Internal Server Error", success: false });

@@ -18,32 +18,28 @@ const FormSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
-    residentAddress: {
-      street1: {
-        type: String,
-        required: true,
-      },
-      street2: {
-        type: String,
-        required: true,
-      },
+    pAddressstreet1: {
+      type: String,
+      required: true,
     },
-    permanentAddress: {
-      street1: {
-        type: String,
-        required: true,
-      },
-      street2: {
-        type: String,
-        required: true,
-      },
+    pAddressstreet2: {
+      type: String,
+      required: true,
+    },
+    rAddressstreet1: {
+      type: String,
+      required: true,
+    },
+    rAddressstreet2: {
+      type: String,
+      required: true,
     },
     pdfFile: {
       fileName: {
         type: String,
         required: true,
       },
-      fileType: {
+      path: {
         type: String,
         required: true,
       },
@@ -53,7 +49,7 @@ const FormSchema = mongoose.Schema(
         type: String,
         required: true,
       },
-      fileType: {
+      path: {
         type: String,
         required: true,
       },
