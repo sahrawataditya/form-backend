@@ -1,5 +1,9 @@
+import NodeCache from "node-cache";
 import Form from "../model/Form.js";
 
+const myCache = new NodeCache({
+  stdTTL: 1000,
+});
 export const RegisterForm = async (req, res) => {
   const {
     firstName,
@@ -81,5 +85,24 @@ export const searchForm = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal Server Error", success: false });
+  }
+};
+export const getALlforms = async (req, res) => {
+  try {
+    let forms;
+    if (myCache.has("forms")) {
+      forms = myCache.get("forms");
+      return res.status(200).json({ forms, message: "Forms", success: true });
+    } else {
+      forms = await Form.find({}).sort("-createdAt").limit(1);
+      myCache.set("forms", forms);
+      return res.status(200).json({ forms, message: "Forms", success: true });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error ",
+      success: false,
+    });
   }
 };

@@ -1,5 +1,5 @@
 import express from "express";
-import { RegisterForm, searchForm } from "../controllers/Form.js";
+import { RegisterForm, getALlforms, searchForm } from "../controllers/Form.js";
 import { upload } from "../middleware/Multer.js";
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.post(
   ]),
   RegisterForm
 );
+router.get("/forms", getALlforms);
 router.get("/search", searchForm);
 
 export default router;
