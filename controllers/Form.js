@@ -88,16 +88,13 @@ export const searchForm = async (req, res) => {
   }
 };
 export const getALlforms = async (req, res) => {
+  let skip = req.query.skip || 0;
   try {
-    let forms;
-    if (myCache.has("forms")) {
-      forms = myCache.get("forms");
-      return res.status(200).json({ forms, message: "Forms", success: true });
-    } else {
-      forms = await Form.find({}).sort("-createdAt").limit(1);
-      myCache.set("forms", forms);
-      return res.status(200).json({ forms, message: "Forms", success: true });
+    const forms = await Form.find({}).sort("-createdAt").limit(3).skip(skip);
+    if (forms.length === 0) {
+      return res.status(400).json({ message: "No form found", success: false });
     }
+    return res.status(200).json({ forms, message: "Forms", success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
